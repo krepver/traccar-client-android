@@ -16,6 +16,7 @@
 package org.traccar.client;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,6 +54,7 @@ public class RequestManager {
         InputStream inputStream = null;
         try {
             URL url = new URL(request);
+            Log.d("send", "sendRequest: "+url.toString());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(TIMEOUT);
             connection.setConnectTimeout(TIMEOUT);
@@ -61,6 +63,7 @@ public class RequestManager {
             while (inputStream.read() != -1);
             return true;
         } catch (IOException error) {
+            Log.e("send", error.getMessage());
             return false;
         } finally {
             try {
@@ -68,7 +71,7 @@ public class RequestManager {
                     inputStream.close();
                 }
             } catch (IOException secondError) {
-                return false;
+//                return false;
             }
         }
     }

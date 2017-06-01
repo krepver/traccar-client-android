@@ -21,6 +21,14 @@
         android:title="@string/settings_address_title" />
 
     <EditTextPreference
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/settings_path_title"
+            android:key="path"
+            android:summary="@string/settings_path_summary"
+            android:defaultValue=""/>
+
+    <EditTextPreference
         android:defaultValue="5055"
         android:key="port"
         android:numeric="integer"

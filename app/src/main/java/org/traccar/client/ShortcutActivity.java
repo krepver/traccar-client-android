@@ -66,6 +66,7 @@ public class ShortcutActivity extends Activity {
             String request = ProtocolFormatter.formatRequest(
                     preferences.getString(MainActivity.KEY_ADDRESS, null),
                     Integer.parseInt(preferences.getString(MainActivity.KEY_PORT, null)),
+                    preferences.getString(MainActivity.KEY_PATH, null),
                     preferences.getBoolean(MainActivity.KEY_SECURE, false),
                     position, ALARM_SOS);
 

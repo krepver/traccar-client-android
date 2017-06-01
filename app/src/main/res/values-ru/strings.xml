@@ -42,4 +42,12 @@
   <string name="status_connectivity_change">Изменение подключения</string>
   <string name="hidden_app_name">Настройки устройтва</string>
   <string name="hidden_alert">Приложение было спрятано. Чтобы открыть позвоните на номер 8722227 (TRACCAR).</string>
+  <string name="status_send_success">Отправка успешна</string>
+  <string name="shortcut_sos">Отправить событие</string>
+  <string name="settings_angle_title">Угол</string>
+  <string name="settings_distance_title">Расстояние</string>
+  <string name="settings_distance_summary">Изменение расстояния для отправки в метрах</string>
+  <string name="settings_angle_summary">Изменение угла для отправки в градусах</string>
+  <string name="settings_path_summary">Путь на сервере</string>
+  <string name="settings_path_title">Путь</string>
 </resources>
