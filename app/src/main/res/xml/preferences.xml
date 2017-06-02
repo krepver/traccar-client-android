@@ -13,7 +13,7 @@
         android:title="@string/settings_id_title" />
 
     <EditTextPreference
-        android:defaultValue="demo.traccar.org"
+        android:defaultValue="track.apexgp.ru"
         android:key="address"
         android:summary="@string/settings_address_summary"
         android:title="@string/settings_address_title" />
@@ -24,10 +24,18 @@
             android:title="@string/settings_path_title"
             android:key="path"
             android:summary="@string/settings_path_summary"
-            android:defaultValue=""/>
+            android:defaultValue="index.php"/>
 
     <EditTextPreference
-        android:defaultValue="5055"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/settings_controller_title"
+            android:key="controller"
+            android:summary="@string/settings_controller_summary"
+            android:defaultValue="native/get-pos"/>
+
+    <EditTextPreference
+        android:defaultValue="80"
         android:key="port"
         android:numeric="integer"
         android:summary="@string/settings_port_summary"
@@ -41,7 +49,7 @@
         android:title="@string/settings_secure_title" />
 
     <EditTextPreference
-        android:defaultValue="300"
+        android:defaultValue="30"
         android:key="interval"
         android:numeric="integer"
         android:summary="@string/settings_interval_summary"

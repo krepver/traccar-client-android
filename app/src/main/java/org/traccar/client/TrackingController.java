@@ -38,6 +38,7 @@ public class TrackingController implements PositionProvider.PositionListener, Ne
 
     private String address;
     private String path;
+    private String controller;
     private int port;
     private boolean secure;
 
@@ -76,6 +77,7 @@ public class TrackingController implements PositionProvider.PositionListener, Ne
 
         address = preferences.getString(MainActivity.KEY_ADDRESS, null);
         path = preferences.getString(MainActivity.KEY_PATH, null);
+        controller = preferences.getString(MainActivity.KEY_CONTROLLER, null);
         port = Integer.parseInt(preferences.getString(MainActivity.KEY_PORT, null));
         secure = preferences.getBoolean(MainActivity.KEY_SECURE, false);
 
@@ -201,7 +203,7 @@ public class TrackingController implements PositionProvider.PositionListener, Ne
     private void send(final Position position) {
         log("send", position);
         lock();
-        String request = ProtocolFormatter.formatRequest(address, port, path, secure, position);
+        String request = ProtocolFormatter.formatRequest(address, port, path, controller, secure, position);
         RequestManager.sendRequestAsync(request, new RequestManager.RequestHandler() {
             @Override
             public void onComplete(boolean success) {

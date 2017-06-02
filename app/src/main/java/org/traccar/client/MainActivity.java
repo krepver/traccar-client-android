@@ -48,6 +48,7 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
     public static final String KEY_DEVICE = "id";
     public static final String KEY_ADDRESS = "address";
     public static final String KEY_PATH = "path";
+    public static final String KEY_CONTROLLER = "controller";
     public static final String KEY_PORT = "port";
     public static final String KEY_SECURE = "secure";
     public static final String KEY_INTERVAL = "interval";
@@ -57,6 +58,7 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
     public static final String KEY_STATUS = "status";
 
     private static final int PERMISSIONS_REQUEST_LOCATION = 2;
+    private static final int PERMISSIONS_REQUEST_DIAL = 3;
 
     private SharedPreferences sharedPreferences;
 
@@ -68,7 +70,11 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
         super.onCreate(savedInstanceState);
 
         if (BuildConfig.HIDDEN_APP) {
-            removeLauncherIcon();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions();
+            } else {
+                removeLauncherIcon();
+            }
         }
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -92,6 +98,12 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
             }
         });
         findPreference(KEY_PATH).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                return newValue != null && !((String) newValue).isEmpty();
+            }
+        });
+        findPreference(KEY_CONTROLLER).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 return newValue != null && !((String) newValue).isEmpty();
@@ -131,6 +143,17 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
 
         if (sharedPreferences.getBoolean(KEY_STATUS, false)) {
             startTrackingService(true, false);
+        }
+    }
+
+    private void requestPermissions() {
+        if (!hasPermission(Manifest.permission.PROCESS_OUTGOING_CALLS)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.PROCESS_OUTGOING_CALLS)) {
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS}, PERMISSIONS_REQUEST_DIAL);
+                }
+            }
         }
     }
 
@@ -186,6 +209,7 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
         findPreference(KEY_DEVICE).setEnabled(enabled);
         findPreference(KEY_ADDRESS).setEnabled(enabled);
         findPreference(KEY_PATH).setEnabled(enabled);
+        findPreference(KEY_CONTROLLER).setEnabled(enabled);
         findPreference(KEY_PORT).setEnabled(enabled);
         findPreference(KEY_SECURE).setEnabled(enabled);
         findPreference(KEY_INTERVAL).setEnabled(enabled);
@@ -286,15 +310,23 @@ public class MainActivity extends PreferenceActivity implements OnSharedPreferen
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST_LOCATION) {
-            boolean granted = true;
-            for (int result : grantResults) {
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    granted = false;
-                    break;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_LOCATION:
+                boolean granted = true;
+                for (int result : grantResults) {
+                    if (result != PackageManager.PERMISSION_GRANTED) {
+                        granted = false;
+                        break;
+                    }
                 }
-            }
-            startTrackingService(false, granted);
+                startTrackingService(false, granted);
+                break;
+            case PERMISSIONS_REQUEST_DIAL:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    removeLauncherIcon();
+                }
+                break;
         }
     }
 

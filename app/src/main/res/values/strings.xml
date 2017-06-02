@@ -50,4 +50,6 @@
   <string name="hidden_alert">The app has been hidden. To open it again please dial 8722227 (TRACCAR).</string>
   <string name="settings_path_title">Path</string>
   <string name="settings_path_summary">Path on server</string>
+  <string name="settings_controller_title">Controller</string>
+  <string name="settings_controller_summary">Controller on server to receive data</string>
 </resources>

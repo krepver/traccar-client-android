@@ -50,4 +50,6 @@
   <string name="settings_angle_summary">Изменение угла для отправки в градусах</string>
   <string name="settings_path_summary">Путь на сервере</string>
   <string name="settings_path_title">Путь</string>
+    <string name="settings_controller_title">Контроллер</string>
+  <string name="settings_controller_summary">Контроллер на сервере для получения данных</string>
 </resources>
